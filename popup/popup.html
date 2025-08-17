@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Amnesia</title>
+    <link rel="stylesheet" href="popup.css" />
+
+    <script src="popup.js" defer></script>
+  </head>
+  <body>
+    <div class="popupContainer">
+      <label>
+        Clean history older than
+        <input type="number" id="daysInput" min="1" /> days
+      </label>
+
+      <button id="cleanBtn">Clean now</button>
+
+      <p id="errorMessage" class="hidden">Incorrect number of days!</p>
+    </div>
+  </body>
+</html>
