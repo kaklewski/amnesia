@@ -1,35 +1,42 @@
 import { CUTOFF_DAYS as DEFAULT_DAYS } from './default-values.js';
+import { changeElementVisibility, getNumberOfDaysFromInput, isPositiveInteger } from './helpers.js';
+
 const DAYS_KEY = 'days';
 const AUTO_CLEAN_KEY = 'autoCleanEnabled';
 const daysInput = document.getElementById('daysInput');
 const cleanButton = document.getElementById('cleanBtn');
 const autoCleanCheckbox = document.getElementById('autoCleanCheckbox');
-const errorLabel = document.getElementById('errorMessage');
 
-function isPositiveInteger(value) {
-  const number = parseInt(value, 10);
-  return Number.isInteger(number) && number > 0;
+async function setValuesOnStartup() {
+  const { days, autoCleanEnabled } = await browser.storage.local.get([DAYS_KEY, AUTO_CLEAN_KEY]);
+
+  daysInput.value = isPositiveInteger(days) ? days : DEFAULT_DAYS;
+  autoCleanCheckbox.checked = autoCleanEnabled === true;
 }
 
-function showError() {
-  errorLabel.classList.remove('hidden');
-}
-
-function hideError() {
-  errorLabel.classList.add('hidden');
-}
-
-async function saveDaysToStorage() {
-  const days = parseInt(daysInput.value, 10);
+async function saveNumberOfDaysInStorage() {
+  const days = getNumberOfDaysFromInput(daysInput);
+  const errorLabel = document.getElementById('errorMessage');
 
   if (!isPositiveInteger(days)) {
-    showError();
+    changeElementVisibility(errorLabel, true);
     return;
   }
 
-  hideError();
+  changeElementVisibility(errorLabel, false);
 
   await browser.storage.local.set({ [DAYS_KEY]: days });
+}
+
+async function cleanHistory() {
+  await saveNumberOfDaysInStorage();
+  const days = getNumberOfDaysFromInput(daysInput);
+  sendCleanHistoryMessage(days);
+}
+
+async function setAutoClean() {
+  const isChecked = autoCleanCheckbox.checked;
+  await browser.storage.local.set({ [AUTO_CLEAN_KEY]: isChecked });
 }
 
 function sendCleanHistoryMessage(days) {
@@ -39,24 +46,7 @@ function sendCleanHistoryMessage(days) {
   });
 }
 
-async function setAutoClean() {
-  const isChecked = autoCleanCheckbox.checked;
-  await browser.storage.local.set({ [AUTO_CLEAN_KEY]: isChecked });
-}
-
-async function setInputValues() {
-  const { days, autoCleanEnabled } = await browser.storage.local.get([DAYS_KEY, AUTO_CLEAN_KEY]);
-
-  daysInput.value = isPositiveInteger(days) ? days : DEFAULT_DAYS;
-  autoCleanCheckbox.checked = autoCleanEnabled === true;
-}
-
-document.addEventListener('DOMContentLoaded', setInputValues);
+document.addEventListener('DOMContentLoaded', setValuesOnStartup);
+daysInput.addEventListener('change', saveNumberOfDaysInStorage);
+cleanButton.addEventListener('click', cleanHistory);
 autoCleanCheckbox.addEventListener('change', setAutoClean);
-daysInput.addEventListener('change', saveDaysToStorage);
-
-cleanButton.addEventListener('click', async () => {
-  await saveDaysToStorage();
-  const days = parseInt(daysInput.value, 10);
-  sendCleanHistoryMessage(days);
-});
