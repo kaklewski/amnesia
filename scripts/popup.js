@@ -1,4 +1,4 @@
-const DEFAULT_DAYS = 30;
+import { CUTOFF_DAYS as DEFAULT_DAYS } from './default-values.js';
 const DAYS_KEY = 'days';
 const AUTO_CLEAN_KEY = 'autoCleanEnabled';
 const daysInput = document.getElementById('daysInput');
