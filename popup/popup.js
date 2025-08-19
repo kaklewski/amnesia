@@ -1,7 +1,9 @@
 const DEFAULT_DAYS = 30;
-const STORAGE_KEY = 'lastDays';
+const DAYS_KEY = 'days';
+const AUTO_CLEAN_KEY = 'autoCleanEnabled';
 const daysInput = document.getElementById('daysInput');
 const cleanButton = document.getElementById('cleanBtn');
+const autoCleanCheckbox = document.getElementById('autoCleanCheckbox');
 const errorLabel = document.getElementById('errorMessage');
 
 function isPositiveInteger(value) {
@@ -17,23 +19,7 @@ function hideError() {
   errorLabel.classList.add('hidden');
 }
 
-async function saveDaysToStorage(days) {
-  await browser.storage.local.set({ [STORAGE_KEY]: days });
-}
-
-function sendCleanHistoryMessage(days) {
-  browser.runtime.sendMessage({
-    action: 'cleanHistory',
-    numberOfDays: days,
-  });
-}
-
-document.addEventListener('DOMContentLoaded', async () => {
-  const { lastDays } = await browser.storage.local.get(STORAGE_KEY);
-  daysInput.value = isPositiveInteger(lastDays) ? lastDays : DEFAULT_DAYS;
-});
-
-cleanButton.addEventListener('click', async () => {
+async function saveDaysToStorage() {
   const days = parseInt(daysInput.value, 10);
 
   if (!isPositiveInteger(days)) {
@@ -43,6 +29,34 @@ cleanButton.addEventListener('click', async () => {
 
   hideError();
 
-  await saveDaysToStorage(days);
+  await browser.storage.local.set({ [DAYS_KEY]: days });
+}
+
+function sendCleanHistoryMessage(days) {
+  browser.runtime.sendMessage({
+    action: 'cleanHistory',
+    days,
+  });
+}
+
+async function setAutoClean() {
+  const isChecked = autoCleanCheckbox.checked;
+  await browser.storage.local.set({ [AUTO_CLEAN_KEY]: isChecked });
+}
+
+async function setInputValues() {
+  const { days, autoCleanEnabled } = await browser.storage.local.get([DAYS_KEY, AUTO_CLEAN_KEY]);
+
+  daysInput.value = isPositiveInteger(days) ? days : DEFAULT_DAYS;
+  autoCleanCheckbox.checked = autoCleanEnabled === true;
+}
+
+document.addEventListener('DOMContentLoaded', setInputValues);
+autoCleanCheckbox.addEventListener('change', setAutoClean);
+daysInput.addEventListener('change', saveDaysToStorage);
+
+cleanButton.addEventListener('click', async () => {
+  await saveDaysToStorage();
+  const days = parseInt(daysInput.value, 10);
   sendCleanHistoryMessage(days);
 });
