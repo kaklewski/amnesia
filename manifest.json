@@ -17,5 +17,11 @@
   },
   "background": {
     "scripts": ["background/background.js"]
+  },
+
+  "applications": {
+    "gecko": {
+      "id": "amnesia@example.com"
+    }
   }
 }
