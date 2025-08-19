@@ -1,2 +1,4 @@
-export const CUTOFF_DAYS = 30;
-export const AUTO_CLEAN_ENABLED = false;
+const CUTOFF_DAYS = 30;
+const AUTO_CLEAN_ENABLED = false;
+
+export { AUTO_CLEAN_ENABLED, CUTOFF_DAYS };
