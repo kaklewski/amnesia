@@ -9,9 +9,24 @@
     "default_popup": "popup/popup.html",
     "theme_icons": [
       {
-        "light": "icons/icon-32-light.svg",
-        "dark": "icons/icon-32-dark.svg",
+        "light": "icons/icon-light.svg",
+        "dark": "icons/icon-dark.svg",
+        "size": 16
+      },
+      {
+        "light": "icons/icon-light.svg",
+        "dark": "icons/icon-dark.svg",
         "size": 32
+      },
+      {
+        "light": "icons/icon-light.svg",
+        "dark": "icons/icon-dark.svg",
+        "size": 48
+      },
+      {
+        "light": "icons/icon-light.svg",
+        "dark": "icons/icon-dark.svg",
+        "size": 64
       }
     ]
   },
