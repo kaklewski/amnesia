@@ -2,16 +2,16 @@ import { CUTOFF_DAYS as DEFAULT_DAYS } from './default-values.js';
 import { changeElementVisibility, getNumberOfDaysFromInput, isPositiveInteger } from './helpers.js';
 
 const DAYS_KEY = 'days';
-const AUTO_CLEAN_KEY = 'autoCleanEnabled';
+const AUTO_CLEAR_KEY = 'autoClearEnabled';
 const daysInput = document.getElementById('daysInput');
-const cleanButton = document.getElementById('cleanBtn');
-const autoCleanCheckbox = document.getElementById('autoCleanCheckbox');
+const clearButton = document.getElementById('clearBtn');
+const autoClearCheckbox = document.getElementById('autoClearCheckbox');
 
 async function setValuesOnStartup() {
-  const { days, autoCleanEnabled } = await browser.storage.local.get([DAYS_KEY, AUTO_CLEAN_KEY]);
+  const { days, autoClearEnabled } = await browser.storage.local.get([DAYS_KEY, AUTO_CLEAR_KEY]);
 
   daysInput.value = isPositiveInteger(days) ? days : DEFAULT_DAYS;
-  autoCleanCheckbox.checked = autoCleanEnabled === true;
+  autoClearCheckbox.checked = autoClearEnabled === true;
 }
 
 async function saveNumberOfDaysInStorage() {
@@ -28,25 +28,25 @@ async function saveNumberOfDaysInStorage() {
   await browser.storage.local.set({ [DAYS_KEY]: days });
 }
 
-async function cleanHistory() {
+async function clearHistory() {
   await saveNumberOfDaysInStorage();
   const days = getNumberOfDaysFromInput(daysInput);
-  sendCleanHistoryMessage(days);
+  sendClearHistoryMessage(days);
 }
 
-async function setAutoClean() {
-  const isChecked = autoCleanCheckbox.checked;
-  await browser.storage.local.set({ [AUTO_CLEAN_KEY]: isChecked });
+async function setAutoClear() {
+  const isChecked = autoClearCheckbox.checked;
+  await browser.storage.local.set({ [AUTO_CLEAR_KEY]: isChecked });
 }
 
-function sendCleanHistoryMessage(days) {
+function sendClearHistoryMessage(days) {
   browser.runtime.sendMessage({
-    action: 'cleanHistory',
+    action: 'clearHistory',
     days,
   });
 }
 
 document.addEventListener('DOMContentLoaded', setValuesOnStartup);
 daysInput.addEventListener('change', saveNumberOfDaysInStorage);
-cleanButton.addEventListener('click', cleanHistory);
-autoCleanCheckbox.addEventListener('change', setAutoClean);
+clearButton.addEventListener('click', clearHistory);
+autoClearCheckbox.addEventListener('change', setAutoClear);

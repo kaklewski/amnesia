@@ -1,21 +1,21 @@
 import {
-  AUTO_CLEAN_ENABLED as DEFAULT_AUTO_CLEAN_ENABLED,
+  AUTO_CLEAR_ENABLED as DEFAULT_AUTO_CLEAR_ENABLED,
   CUTOFF_DAYS as DEFAULT_DAYS,
 } from './default-values.js';
 
-async function runAutoClean() {
-  const { days, autoCleanEnabled } = await browser.storage.local.get(['days', 'autoCleanEnabled']);
+async function runAutoClear() {
+  const { days, autoClearEnabled } = await browser.storage.local.get(['days', 'autoClearEnabled']);
   const effectiveDays = days ?? DEFAULT_DAYS;
-  const effectiveAutoCleanEnabled = autoCleanEnabled ?? DEFAULT_AUTO_CLEAN_ENABLED;
+  const effectiveAutoClearEnabled = autoClearEnabled ?? DEFAULT_AUTO_CLEAR_ENABLED;
 
-  if (!effectiveAutoCleanEnabled) return;
+  if (!effectiveAutoClearEnabled) return;
 
   const cutoff = Date.now() - effectiveDays * 24 * 60 * 60 * 1000;
-  await cleanHistory(cutoff);
+  await clearHistory(cutoff);
   notify(`History older than ${effectiveDays} days has been deleted.`);
 }
 
-async function cleanHistory(cutoff) {
+async function clearHistory(cutoff) {
   const results = await browser.history.search({
     text: '',
     startTime: 0,
@@ -41,14 +41,14 @@ function notify(message) {
   }
 }
 
-browser.runtime.onStartup.addListener(runAutoClean);
+browser.runtime.onStartup.addListener(runAutoClear);
 
 browser.runtime.onMessage.addListener(async (message) => {
-  if (message.action === 'cleanHistory') {
+  if (message.action === 'clearHistory') {
     const cutoff = Date.now() - message.days * 24 * 60 * 60 * 1000;
     // const cutoff = Date.now() - message.days * 60 * 60 * 1000; // test (default to hours)
 
-    await cleanHistory(cutoff);
+    await clearHistory(cutoff);
     notify(`History older than ${message.days} days has been deleted.`);
   }
 });
