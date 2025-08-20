@@ -2,11 +2,12 @@
   "manifest_version": 2,
   "name": "Amnesia",
   "version": "1.0",
-  "description": "Removes history older than a specified number of days.",
+  "description": "Clears history older than a specified number of days.",
   "permissions": ["history", "notifications", "storage"],
   "browser_action": {
-    "default_title": "Amnesia",
+    "default_title": "Clear history older than a specified number of days",
     "default_popup": "popup/popup.html",
+    "default_area": "navbar",
     "theme_icons": [
       {
         "light": "icons/icon-light.svg",
