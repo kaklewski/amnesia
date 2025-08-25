@@ -22,6 +22,7 @@
 
 :root {
   --hover-transition-duration: 0.1s;
+
   color-scheme: light dark;
 }
 
@@ -33,9 +34,9 @@
 }
 
 body {
-  font-family: sans-serif;
-  padding: 12px;
   background-color: var(--bg);
+  padding: 12px;
+  font-family: sans-serif;
 }
 
 .popup-container {
@@ -53,11 +54,16 @@ input[type='number'] {
   padding: 2px 4px;
   padding-right: 0;
   font-size: 14px;
+  outline: none;
+}
+
+input[type='number']:focus-visible {
+  outline: auto;
 }
 
 #clear-button {
-  padding: 6px;
   margin: 4px 0;
+  padding: 6px;
   background-color: var(--accent);
   border: none;
   border-radius: 4px;
@@ -75,6 +81,25 @@ input[type='number'] {
   display: none;
 }
 
+/* [data-visible='true'] {
+  max-height: 500px;
+  opacity: 1;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  overflow: hidden;
+}
+
+[data-visible='false'] {
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  overflow: hidden;
+} */
+
+hr {
+  border: none;
+  border-top: 1px solid var(--btn-bg);
+}
+
 .switch-container {
   display: flex;
   align-items: center;
@@ -82,13 +107,13 @@ input[type='number'] {
 }
 
 .switch {
-  --switch-width: 40px;
-  --switch-height: 20px;
+  --switch-width: 36px;
+  --switch-height: 18px;
   --switch-padding: 2px;
   --switch-transition-duration: 0.3s;
 
-  position: relative;
   display: inline-block;
+  position: relative;
   width: var(--switch-width);
   height: var(--switch-height);
 }
@@ -117,16 +142,16 @@ input[type='number'] {
 }
 
 .slider::before {
-  position: absolute;
   content: '';
-  height: calc(var(--switch-height) - 2 * var(--switch-padding));
-  width: calc(var(--switch-height) - 2 * var(--switch-padding));
+  position: absolute;
   left: var(--switch-padding);
   bottom: var(--switch-padding);
+  height: calc(var(--switch-height) - 2 * var(--switch-padding));
+  width: calc(var(--switch-height) - 2 * var(--switch-padding));
   background-color: #ffffff;
-  transition: var(--switch-transition-duration);
   border-radius: 50%;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+  transition: var(--switch-transition-duration);
 }
 
 input:checked + .slider {
