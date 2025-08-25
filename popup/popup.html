@@ -8,17 +8,17 @@
     <script type="module" src="../scripts/popup.js" defer></script>
   </head>
   <body>
-    <div class="popupContainer">
+    <div class="popup-container">
       <label>
         Clear history older than
-        <input type="number" id="daysInput" min="1" /> days
+        <input type="number" id="days-input" min="1" /> days
       </label>
-      <button id="clearBtn">Clear now</button>
-      <label class="autoClearLabel">
-        <input type="checkbox" id="autoClearCheckbox" />
+      <button id="clear-button">Clear now</button>
+      <label class="auto-clear-label">
+        <input type="checkbox" id="auto-clear-checkbox" />
         Clear automatically on browser startup
       </label>
-      <p id="errorMessage" data-visible="false">Incorrect number of days!</p>
+      <p id="error-message" data-visible="false">Incorrect number of days!</p>
     </div>
   </body>
 </html>

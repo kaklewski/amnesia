@@ -3,9 +3,9 @@ import { changeElementVisibility, getNumberOfDaysFromInput, isPositiveInteger } 
 
 const DAYS_KEY = 'days';
 const AUTO_CLEAR_KEY = 'autoClearEnabled';
-const daysInput = document.getElementById('daysInput');
-const clearButton = document.getElementById('clearBtn');
-const autoClearCheckbox = document.getElementById('autoClearCheckbox');
+const daysInput = document.getElementById('days-input');
+const clearButton = document.getElementById('clear-button');
+const autoClearCheckbox = document.getElementById('auto-clear-checkbox');
 
 async function setValuesOnStartup() {
   const { days, autoClearEnabled } = await browser.storage.local.get([DAYS_KEY, AUTO_CLEAR_KEY]);
@@ -16,7 +16,7 @@ async function setValuesOnStartup() {
 
 async function saveNumberOfDaysInStorage() {
   const days = getNumberOfDaysFromInput(daysInput);
-  const errorLabel = document.getElementById('errorMessage');
+  const errorLabel = document.getElementById('error-message');
 
   if (!isPositiveInteger(days)) {
     changeElementVisibility(errorLabel, true);
