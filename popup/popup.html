@@ -13,12 +13,15 @@
         Clear history older than
         <input type="number" id="days-input" min="1" /> days
       </label>
-      <button id="clear-button">Clear now</button>
-      <label class="auto-clear-label">
-        <input type="checkbox" id="auto-clear-checkbox" />
-        Clear automatically on browser startup
-      </label>
+      <button type="button" id="clear-button">Clear now</button>
       <p id="error-message" data-visible="false">Incorrect number of days!</p>
+      <div class="switch-container">
+        <label class="switch">
+          <input type="checkbox" id="auto-clear-checkbox" />
+          <span class="slider"></span>
+        </label>
+        <label for="auto-clear-checkbox"> Clear automatically on browser startup </label>
+      </div>
     </div>
   </body>
 </html>
