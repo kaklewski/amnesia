@@ -20,10 +20,12 @@ async function saveNumberOfDaysInStorage() {
 
   if (!isPositiveInteger(days)) {
     changeElementVisibility(errorMessage, true);
+    clearButton.disabled = true;
     return;
   }
 
   changeElementVisibility(errorMessage, false);
+  clearButton.disabled = false;
 
   await browser.storage.local.set({ [DAYS_KEY]: days });
 }

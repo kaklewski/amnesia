@@ -3,7 +3,7 @@
     --bg: #ffffff;
     --accent: #0062fa;
     --accent-hover: #0053cb;
-    --accent-text: #ffffff;
+    --text: #ffffff;
     --btn-bg: #e5e5e5;
     --btn-bg-hover: #cececf;
     --input-bg: #ffffff;
@@ -19,7 +19,7 @@
     --bg: #1c1b22;
     --accent: #00cadb;
     --accent-hover: #61dce9;
-    --accent-text: #000000;
+    --text: #000000;
     --btn-bg: #484854;
     --btn-bg-hover: #5c5c6a;
     --input-bg: #2b2a33;
@@ -78,13 +78,19 @@ body {
   background-color: var(--accent);
   border: none;
   border-radius: 4px;
-  color: var(--accent-text);
+  color: var(--text);
   transition: background-color var(--hover-transition-duration);
   cursor: pointer;
 }
 
 #clear-button:hover {
   background-color: var(--accent-hover);
+}
+
+#clear-button:disabled {
+  background-color: var(--btn-bg);
+  color: rgba(0, 0, 0, 0.5);
+  cursor: not-allowed;
 }
 
 .error-message {
