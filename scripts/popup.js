@@ -16,14 +16,14 @@ async function setValuesOnStartup() {
 
 async function saveNumberOfDaysInStorage() {
   const days = getNumberOfDaysFromInput(daysInput);
-  const errorLabel = document.getElementById('error-message');
+  const errorMessage = document.getElementById('error-message');
 
   if (!isPositiveInteger(days)) {
-    changeElementVisibility(errorLabel, true);
+    changeElementVisibility(errorMessage, true);
     return;
   }
 
-  changeElementVisibility(errorLabel, false);
+  changeElementVisibility(errorMessage, false);
 
   await browser.storage.local.set({ [DAYS_KEY]: days });
 }
