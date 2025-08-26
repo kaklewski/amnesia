@@ -3,7 +3,12 @@ import {
   CUTOFF_DAYS as DEFAULT_DAYS,
   SEND_NOTIFICATIONS_ENABLED as DEFAULT_SEND_NOTIFICATIONS_ENABLED,
 } from './default-values.js';
-import { changeElementVisibility, getNumberOfDaysFromInput, isPositiveInteger } from './helpers.js';
+import {
+  changeElementVisibility,
+  enableTransitions,
+  getNumberOfDaysFromInput,
+  isPositiveInteger,
+} from './helpers.js';
 
 const DAYS_KEY = 'days';
 const AUTO_CLEAR_KEY = 'autoClearEnabled';
@@ -65,11 +70,15 @@ function setSendNotifications() {
   browser.storage.local.set({ [SEND_NOTIFICATIONS_KEY]: isChecked });
 }
 
-document.addEventListener('DOMContentLoaded', setValuesOnStartup);
 daysInput.addEventListener('change', saveNumberOfDaysInStorage);
 clearButton.addEventListener('click', clearHistory);
 autoClearCheckbox.addEventListener('change', setAutoClear);
 sendNotificationsCheckbox.addEventListener('change', setSendNotifications);
+
+document.addEventListener('DOMContentLoaded', async () => {
+  await setValuesOnStartup();
+  enableTransitions();
+});
 
 browser.runtime.onMessage.addListener((message) => {
   if (message.action === 'showSuccessAlert') {

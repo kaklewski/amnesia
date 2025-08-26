@@ -61,6 +61,12 @@ body {
   font-size: 14px;
 }
 
+body[data-show-transitions='false'] *,
+body[data-show-transitions='false'] *:before,
+body[data-show-transitions='false'] *:after {
+  transition: none !important;
+}
+
 .popup-container {
   display: flex;
   flex-direction: column;
@@ -183,7 +189,7 @@ hr {
   background-color: #ffffff;
   border-radius: 50%;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
-  transition: var(--switch-transition-duration);
+  transition: transform var(--switch-transition-duration);
 }
 
 input:checked + .slider {

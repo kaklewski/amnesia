@@ -11,4 +11,10 @@ function getNumberOfDaysFromInput(input) {
   return parseInt(input.value, 10);
 }
 
-export { changeElementVisibility, getNumberOfDaysFromInput, isPositiveInteger };
+function enableTransitions() {
+  setTimeout(() => {
+    document.getElementsByTagName('body')[0].dataset.showTransitions = 'true';
+  }, 100);
+}
+
+export { changeElementVisibility, enableTransitions, getNumberOfDaysFromInput, isPositiveInteger };
