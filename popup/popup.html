@@ -9,13 +9,13 @@
   </head>
   <body>
     <div class="popup-container">
-      <label for="days-input"> Clear history older than amount of days: </label>
+      <label for="days-input"> Clear history older than number of days: </label>
       <input id="days-input" type="number" inputmode="numeric" min="1" max="3650" step="1" />
 
       <button type="button" id="clear-button">Clear now</button>
 
-      <div id="error-message" data-visible="false">
-        <div class="error-message">
+      <div id="alert--error" data-visible="false">
+        <div class="alert alert--error">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -33,6 +33,25 @@
         </div>
       </div>
 
+      <div id="alert--success" data-visible="false">
+        <div class="alert alert--success">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="icon icon-tabler icons-tabler-filled icon-tabler-circle-check"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path
+              d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-1.293 5.953a1 1 0 0 0 -1.32 -.083l-.094 .083l-3.293 3.292l-1.293 -1.292l-.094 -.083a1 1 0 0 0 -1.403 1.403l.083 .094l2 2l.094 .083a1 1 0 0 0 1.226 0l.094 -.083l4 -4l.083 -.094a1 1 0 0 0 -.083 -1.32z"
+            />
+          </svg>
+          <p>History cleared!</p>
+        </div>
+      </div>
+
       <hr />
 
       <div class="switch-container">
@@ -45,10 +64,10 @@
 
       <div class="switch-container">
         <label class="switch">
-          <input type="checkbox" id="send-notification-checkbox" />
+          <input type="checkbox" id="send-notifications-checkbox" />
           <span class="slider"></span>
         </label>
-        <label for="send-notification-checkbox" class="switch-label">
+        <label for="send-notifications-checkbox" class="switch-label">
           Show notification after clearing
         </label>
       </div>

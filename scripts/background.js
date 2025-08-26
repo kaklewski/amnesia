@@ -1,6 +1,7 @@
 import {
   AUTO_CLEAR_ENABLED as DEFAULT_AUTO_CLEAR_ENABLED,
   CUTOFF_DAYS as DEFAULT_DAYS,
+  SEND_NOTIFICATIONS_ENABLED as DEFAULT_SEND_NOTIFICATIONS_ENABLED,
 } from './default-values.js';
 
 async function runAutoClear() {
@@ -12,6 +13,7 @@ async function runAutoClear() {
 
   const cutoff = Date.now() - effectiveDays * 24 * 60 * 60 * 1000;
   await clearHistory(cutoff);
+
   notify(`History older than ${effectiveDays} days has been deleted.`);
 }
 
@@ -28,16 +30,25 @@ async function clearHistory(cutoff) {
   }
 }
 
-function notify(message) {
-  if (browser.notifications) {
-    browser.notifications.create({
+async function notify(message) {
+  const { sendNotificationsEnabled } = await browser.storage.local.get([
+    'sendNotificationsEnabled',
+  ]);
+  const effectiveSendNotificationsEnabled =
+    sendNotificationsEnabled ?? DEFAULT_SEND_NOTIFICATIONS_ENABLED;
+
+  if (browser.notifications && effectiveSendNotificationsEnabled) {
+    const notificationOptions = {
       type: 'basic',
-      iconUrl: 'icon.png',
       title: 'Amnesia',
       message,
-    });
+    };
+    browser.notifications.create('amnesia-notification', notificationOptions);
   } else {
-    console.log(message);
+    browser.runtime.sendMessage({
+      action: 'showSuccessAlert',
+      message,
+    });
   }
 }
 
@@ -46,9 +57,8 @@ browser.runtime.onStartup.addListener(runAutoClear);
 browser.runtime.onMessage.addListener(async (message) => {
   if (message.action === 'clearHistory') {
     const cutoff = Date.now() - message.days * 24 * 60 * 60 * 1000;
-    // const cutoff = Date.now() - message.days * 60 * 60 * 1000; // test (default to hours)
-
     await clearHistory(cutoff);
+
     notify(`History older than ${message.days} days has been deleted.`);
   }
 });
