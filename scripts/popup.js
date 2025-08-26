@@ -84,5 +84,8 @@ browser.runtime.onMessage.addListener((message) => {
   if (message.action === 'showSuccessAlert') {
     const successAlert = document.getElementById('alert--success');
     changeElementVisibility(successAlert, true);
+    setTimeout(() => {
+      changeElementVisibility(successAlert, false);
+    }, 3000);
   }
 });
