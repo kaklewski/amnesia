@@ -1,0 +1,38 @@
+{
+  "extensionName": {
+    "message": "Amnesia",
+    "description": "Name of the extension"
+  },
+  "extensionDescription": {
+    "message": "Clears history older than a specified number of days.",
+    "description": "Description of what the extension does"
+  },
+  "defaultTitle": {
+    "message": "Clear history older than a specified number of days",
+    "description": "Title shown when hovering over the extension icon"
+  },
+  "daysInputLabel": {
+    "message": "Clear history older than number of days:",
+    "description": "Label for the input where user specifies number of days"
+  },
+  "clearButton": {
+    "message": "Clear now",
+    "description": "Text for the button that clears the history"
+  },
+  "errorAlertText": {
+    "message": "Incorrect number of days!",
+    "description": "Text for the alert shown when user inputs incorrect number of days"
+  },
+  "successAlertText": {
+    "message": "History has been cleared.",
+    "description": "Text for the alert shown when history has been successfully cleared"
+  },
+  "autoClearCheckboxLabel": {
+    "message": "Clear automatically on browser startup",
+    "description": "Label for the checkbox that enables/disables automatic clearing on browser startup"
+  },
+  "showNotificationsCheckboxLabel": {
+    "message": "Show notification after clearing",
+    "description": "Label for the checkbox that enables/disables showing notification after clearing"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "extensionName": {
+    "message": "Amnezja",
+    "description": "Nazwa rozszerzenia"
+  },
+  "extensionDescription": {
+    "message": "Czyści historię starszą niż określona liczba dni.",
+    "description": "Opis działania rozszerzenia"
+  },
+  "defaultTitle": {
+    "message": "Wyczyść historię starszą niż określona liczba dni",
+    "description": "Tytuł wyświetlany po najechaniu kursorem na ikonę rozszerzenia"
+  },
+  "daysInputLabel": {
+    "message": "Wyczyść historię starszą niż liczba dni:",
+    "description": "Etykieta dla pola, w którym użytkownik podaje liczbę dni"
+  },
+  "clearButton": {
+    "message": "Wyczyść historię",
+    "description": "Tekst przycisku, który czyści historię"
+  },
+  "errorAlertText": {
+    "message": "Nieprawidłowa liczba dni!",
+    "description": "Tekst alertu wyświetlanego, gdy użytkownik poda niepoprawną liczbę dni"
+  },
+  "successAlertText": {
+    "message": "Historia została wyczyszczona.",
+    "description": "Tekst alertu wyświetlanego po pomyślnym wyczyszczeniu historii"
+  },
+  "autoClearCheckboxLabel": {
+    "message": "Czyść automatycznie po uruchomieniu przeglądarki",
+    "description": "Etykieta pola wyboru włączającego/wyłączającego automatyczne czyszczenie po starcie przeglądarki"
+  },
+  "showNotificationsCheckboxLabel": {
+    "message": "Pokaż powiadomienie po wyczyszczeniu",
+    "description": "Etykieta pola wyboru włączającego/wyłączającego pokazywanie powiadomień po czyszczeniu"
+  }
+}

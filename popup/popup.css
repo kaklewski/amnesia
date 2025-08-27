@@ -116,13 +116,13 @@ body[data-show-transitions='false'] *:after {
   font-size: 12px;
 }
 
-.alert--error {
+.error-alert {
   background-color: var(--error-alert-bg);
   border-color: var(--error-alert-border);
   color: var(--error-alert-text);
 }
 
-.alert--success {
+.success-alert {
   background-color: var(--success-alert-bg);
   border-color: var(--success-alert-border);
   color: var(--success-alert-text);

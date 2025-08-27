@@ -1,7 +1,7 @@
 import {
   AUTO_CLEAR_ENABLED as DEFAULT_AUTO_CLEAR_ENABLED,
   CUTOFF_DAYS as DEFAULT_DAYS,
-  SEND_NOTIFICATIONS_ENABLED as DEFAULT_SEND_NOTIFICATIONS_ENABLED,
+  SHOW_NOTIFICATIONS_ENABLED as DEFAULT_SHOW_NOTIFICATIONS_ENABLED,
 } from './default-values.js';
 
 async function runAutoClear() {
@@ -31,13 +31,13 @@ async function clearHistory(cutoff) {
 }
 
 async function notify(message) {
-  const { sendNotificationsEnabled } = await browser.storage.local.get([
-    'sendNotificationsEnabled',
+  const { showNotificationsEnabled } = await browser.storage.local.get([
+    'showNotificationsEnabled',
   ]);
-  const effectiveSendNotificationsEnabled =
-    sendNotificationsEnabled ?? DEFAULT_SEND_NOTIFICATIONS_ENABLED;
+  const effectiveshowNotificationsEnabled =
+    showNotificationsEnabled ?? DEFAULT_SHOW_NOTIFICATIONS_ENABLED;
 
-  if (browser.notifications && effectiveSendNotificationsEnabled) {
+  if (browser.notifications && effectiveshowNotificationsEnabled) {
     const notificationOptions = {
       type: 'basic',
       title: 'Amnesia',

@@ -9,13 +9,15 @@
   </head>
   <body data-show-transitions="false">
     <div class="popup-container">
-      <label for="days-input"> Clear history older than number of days: </label>
+      <label for="days-input" id="days-input-label">
+        Clear history older than number of days:
+      </label>
       <input id="days-input" type="number" inputmode="numeric" min="1" max="3650" step="1" />
 
       <button type="button" id="clear-button">Clear now</button>
 
-      <div id="alert--error" data-visible="false">
-        <div class="alert alert--error">
+      <div id="error-alert" data-visible="false">
+        <div class="alert error-alert">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -29,12 +31,12 @@
               d="M17 3.34a10 10 0 1 1 -15 8.66l.005 -.324a10 10 0 0 1 14.995 -8.336m-5 11.66a1 1 0 0 0 -1 1v.01a1 1 0 0 0 2 0v-.01a1 1 0 0 0 -1 -1m0 -7a1 1 0 0 0 -1 1v4a1 1 0 0 0 2 0v-4a1 1 0 0 0 -1 -1"
             />
           </svg>
-          <p>Incorrect number of days!</p>
+          <p id="error-alert-text">Incorrect number of days!</p>
         </div>
       </div>
 
-      <div id="alert--success" data-visible="false">
-        <div class="alert alert--success">
+      <div id="success-alert" data-visible="false">
+        <div class="alert success-alert">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -48,7 +50,7 @@
               d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-1.293 5.953a1 1 0 0 0 -1.32 -.083l-.094 .083l-3.293 3.292l-1.293 -1.292l-.094 -.083a1 1 0 0 0 -1.403 1.403l.083 .094l2 2l.094 .083a1 1 0 0 0 1.226 0l.094 -.083l4 -4l.083 -.094a1 1 0 0 0 -.083 -1.32z"
             />
           </svg>
-          <p>History has been cleared.</p>
+          <p id="success-alert-text">History has been cleared.</p>
         </div>
       </div>
 
@@ -59,15 +61,21 @@
           <input type="checkbox" id="auto-clear-checkbox" />
           <span class="slider"></span>
         </label>
-        <label for="auto-clear-checkbox"> Clear automatically on browser startup </label>
+        <label for="auto-clear-checkbox" id="auto-clear-checkbox-label">
+          Clear automatically on browser startup
+        </label>
       </div>
 
       <div class="switch-container">
         <label class="switch">
-          <input type="checkbox" id="send-notifications-checkbox" />
+          <input type="checkbox" id="show-notifications-checkbox" />
           <span class="slider"></span>
         </label>
-        <label for="send-notifications-checkbox" class="switch-label">
+        <label
+          for="show-notifications-checkbox"
+          class="switch-label"
+          id="show-notifications-checkbox-label"
+        >
           Show notification after clearing
         </label>
       </div>
