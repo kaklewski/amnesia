@@ -94,7 +94,7 @@ async function setAutoClear() {
   await browser.storage.local.set({ [AUTO_CLEAR_KEY]: isChecked });
 }
 
-function setshowNotifications() {
+function setShowNotifications() {
   const isChecked = showNotificationsCheckbox.checked;
   browser.storage.local.set({ [SHOW_NOTIFICATIONS_KEY]: isChecked });
 }
@@ -102,7 +102,7 @@ function setshowNotifications() {
 daysInput.addEventListener('change', saveNumberOfDaysInStorage);
 clearButton.addEventListener('click', clearHistory);
 autoClearCheckbox.addEventListener('change', setAutoClear);
-showNotificationsCheckbox.addEventListener('change', setshowNotifications);
+showNotificationsCheckbox.addEventListener('change', setShowNotifications);
 
 document.addEventListener('DOMContentLoaded', async () => {
   applyI18nMessages();
