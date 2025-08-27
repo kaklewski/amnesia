@@ -143,7 +143,7 @@ hr {
   --switch-width: 36px;
   --switch-height: 18px;
   --switch-padding: 2px;
-  --switch-transition-duration: 0.3s;
+  --switch-transition-duration: 0.2s;
 
   display: inline-block;
   flex: 0 0 auto;
@@ -171,7 +171,7 @@ hr {
   bottom: 0;
   background-color: var(--btn-bg);
   border-radius: var(--switch-height);
-  transition: background-color var(--hover-transition-duration);
+  transition: background-color var(--hover-transition-duration) ease-in;
   cursor: pointer;
 }
 
@@ -189,7 +189,7 @@ hr {
   background-color: #ffffff;
   border-radius: 50%;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
-  transition: transform var(--switch-transition-duration);
+  transition: transform var(--switch-transition-duration) ease-in;
 }
 
 input:checked + .slider {
