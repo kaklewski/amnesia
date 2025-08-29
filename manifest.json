@@ -5,6 +5,11 @@
   "description": "__MSG_extensionDescription__",
   "permissions": ["history", "notifications", "storage"],
   "default_locale": "en",
+  "icons": {
+    "48": "icons/icon-with-bg.svg",
+    "64": "icons/icon-with-bg.svg",
+    "128": "icons/icon-with-bg.svg"
+  },
   "browser_action": {
     "default_title": "__MSG_defaultTitle__",
     "default_popup": "popup/popup.html",
@@ -19,16 +24,6 @@
         "light": "icons/icon-light.svg",
         "dark": "icons/icon-dark.svg",
         "size": 32
-      },
-      {
-        "light": "icons/icon-light.svg",
-        "dark": "icons/icon-dark.svg",
-        "size": 48
-      },
-      {
-        "light": "icons/icon-light.svg",
-        "dark": "icons/icon-dark.svg",
-        "size": 64
       }
     ]
   },
