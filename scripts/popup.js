@@ -19,7 +19,10 @@ const clearButton = document.getElementById('clear-button');
 const autoClearCheckbox = document.getElementById('auto-clear-checkbox');
 const showNotificationsCheckbox = document.getElementById('show-notifications-checkbox');
 
-function applyI18nMessages() {
+function applyI18n() {
+  document.documentElement.lang = browser.i18n.getUILanguage();
+  document.title = browser.i18n.getMessage('extensionName');
+
   // Keys correspond to message names in _locales/*/messages.json
   const keys = [
     'daysInputLabel',
@@ -105,7 +108,7 @@ autoClearCheckbox.addEventListener('change', setAutoClear);
 showNotificationsCheckbox.addEventListener('change', setShowNotifications);
 
 document.addEventListener('DOMContentLoaded', async () => {
-  applyI18nMessages();
+  applyI18n();
   await setValuesOnStartup();
   enableTransitions();
 });
