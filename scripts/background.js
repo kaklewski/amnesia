@@ -34,10 +34,10 @@ async function notify(message) {
   const { showNotificationsEnabled } = await browser.storage.local.get([
     'showNotificationsEnabled',
   ]);
-  const effectiveshowNotificationsEnabled =
+  const effectiveShowNotificationsEnabled =
     showNotificationsEnabled ?? DEFAULT_SHOW_NOTIFICATIONS_ENABLED;
 
-  if (browser.notifications && effectiveshowNotificationsEnabled) {
+  if (browser.notifications && effectiveShowNotificationsEnabled) {
     const notificationOptions = {
       type: 'basic',
       title: 'Amnesia',
