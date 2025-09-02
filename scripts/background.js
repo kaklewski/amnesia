@@ -18,16 +18,10 @@ async function runAutoClear() {
 }
 
 async function clearHistory(cutoff) {
-  const results = await browser.history.search({
-    text: '',
+  await browser.history.deleteRange({
     startTime: 0,
     endTime: cutoff,
-    maxResults: 100000,
   });
-
-  for (let item of results) {
-    await browser.history.deleteUrl({ url: item.url });
-  }
 }
 
 async function notify(message) {
