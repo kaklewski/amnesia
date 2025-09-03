@@ -38,7 +38,7 @@ async function clearHistoryWithNotification(days) {
   showNotification(notificationText);
 }
 
-async function handleStartup() {
+async function onBrowserStartup() {
   const { days, autoClearEnabled } = await browser.storage.local.get(['days', 'autoClearEnabled']);
   const effectiveDays = days ?? DEFAULT_DAYS;
   const enabled = autoClearEnabled ?? DEFAULT_AUTO_CLEAR_ENABLED;
@@ -48,11 +48,11 @@ async function handleStartup() {
   await clearHistoryWithNotification(effectiveDays);
 }
 
-async function handleRuntimeMessage(message) {
+async function onRuntimeMessage(message) {
   if (message.action === 'clearHistory') {
     await clearHistoryWithNotification(message.days);
   }
 }
 
-browser.runtime.onStartup.addListener(handleStartup);
-browser.runtime.onMessage.addListener(handleRuntimeMessage);
+browser.runtime.onStartup.addListener(onBrowserStartup);
+browser.runtime.onMessage.addListener(onRuntimeMessage);
