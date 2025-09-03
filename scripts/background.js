@@ -3,19 +3,7 @@ import {
   CUTOFF_DAYS as DEFAULT_DAYS,
   SHOW_NOTIFICATIONS_ENABLED as DEFAULT_SHOW_NOTIFICATIONS_ENABLED,
 } from './default-values.js';
-
-async function runAutoClear() {
-  const { days, autoClearEnabled } = await browser.storage.local.get(['days', 'autoClearEnabled']);
-  const effectiveDays = days ?? DEFAULT_DAYS;
-  const effectiveAutoClearEnabled = autoClearEnabled ?? DEFAULT_AUTO_CLEAR_ENABLED;
-
-  if (!effectiveAutoClearEnabled) return;
-
-  const cutoff = Date.now() - effectiveDays * 24 * 60 * 60 * 1000;
-  await clearHistory(cutoff);
-
-  notify(`History older than ${effectiveDays} days has been deleted.`);
-}
+import { getCutoff } from './helpers.js';
 
 async function clearHistory(cutoff) {
   await browser.history.deleteRange({
@@ -28,16 +16,14 @@ async function notify(message) {
   const { showNotificationsEnabled } = await browser.storage.local.get([
     'showNotificationsEnabled',
   ]);
-  const effectiveShowNotificationsEnabled =
-    showNotificationsEnabled ?? DEFAULT_SHOW_NOTIFICATIONS_ENABLED;
+  const enabled = showNotificationsEnabled ?? DEFAULT_SHOW_NOTIFICATIONS_ENABLED;
 
-  if (browser.notifications && effectiveShowNotificationsEnabled) {
-    const notificationOptions = {
+  if (browser.notifications && enabled) {
+    browser.notifications.create('amnesia-notification', {
       type: 'basic',
       title: 'Amnesia',
       message,
-    };
-    browser.notifications.create('amnesia-notification', notificationOptions);
+    });
   } else {
     browser.runtime.sendMessage({
       action: 'showSuccessAlert',
@@ -46,13 +32,22 @@ async function notify(message) {
   }
 }
 
-browser.runtime.onStartup.addListener(runAutoClear);
+async function runAutoClear() {
+  const { days, autoClearEnabled } = await browser.storage.local.get(['days', 'autoClearEnabled']);
+  const effectiveDays = days ?? DEFAULT_DAYS;
+  const enabled = autoClearEnabled ?? DEFAULT_AUTO_CLEAR_ENABLED;
+
+  if (!enabled) return;
+
+  await clearHistory(getCutoff(effectiveDays));
+  notify(`History older than ${effectiveDays} days has been deleted.`);
+}
 
 browser.runtime.onMessage.addListener(async (message) => {
   if (message.action === 'clearHistory') {
-    const cutoff = Date.now() - message.days * 24 * 60 * 60 * 1000;
-    await clearHistory(cutoff);
-
+    await clearHistory(getCutoff(message.days));
     notify(`History older than ${message.days} days has been deleted.`);
   }
 });
+
+browser.runtime.onStartup.addListener(runAutoClear);
