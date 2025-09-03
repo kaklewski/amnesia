@@ -1,8 +1,4 @@
-import {
-  AUTO_CLEAR_ENABLED as DEFAULT_AUTO_CLEAR_ENABLED,
-  CUTOFF_DAYS as DEFAULT_DAYS,
-  SHOW_NOTIFICATIONS_ENABLED as DEFAULT_SHOW_NOTIFICATIONS_ENABLED,
-} from './default-values.js';
+import { DEFAULTS, KEYS } from './config.js';
 import {
   changeElementVisibility,
   enableTransitions,
@@ -10,12 +6,6 @@ import {
   isPositiveInteger,
   toKebabCase,
 } from './helpers.js';
-
-const KEYS = {
-  DAYS: 'days',
-  AUTO_CLEAR: 'autoClearEnabled',
-  SHOW_NOTIFICATIONS: 'showNotificationsEnabled',
-};
 
 const elements = {
   daysInput: document.getElementById('days-input'),
@@ -53,12 +43,12 @@ function applyI18n() {
 
 async function setValuesOnStartup() {
   const {
-    days = DEFAULT_DAYS,
-    autoClearEnabled = DEFAULT_AUTO_CLEAR_ENABLED,
-    showNotificationsEnabled = DEFAULT_SHOW_NOTIFICATIONS_ENABLED,
+    days = DEFAULTS.DAYS,
+    autoClearEnabled = DEFAULTS.AUTO_CLEAR,
+    showNotificationsEnabled = DEFAULTS.SHOW_NOTIFICATIONS,
   } = await browser.storage.local.get([KEYS.DAYS, KEYS.AUTO_CLEAR, KEYS.SHOW_NOTIFICATIONS]);
 
-  elements.daysInput.value = isPositiveInteger(days) ? days : DEFAULT_DAYS;
+  elements.daysInput.value = isPositiveInteger(days) ? days : DEFAULTS.DAYS;
   elements.autoClearCheckbox.checked = autoClearEnabled;
   elements.showNotificationsCheckbox.checked = showNotificationsEnabled;
 }

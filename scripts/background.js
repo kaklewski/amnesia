@@ -1,8 +1,4 @@
-import {
-  AUTO_CLEAR_ENABLED as DEFAULT_AUTO_CLEAR_ENABLED,
-  CUTOFF_DAYS as DEFAULT_DAYS,
-  SHOW_NOTIFICATIONS_ENABLED as DEFAULT_SHOW_NOTIFICATIONS_ENABLED,
-} from './default-values.js';
+import { DEFAULTS, KEYS } from './config.js';
 import { getCutoff } from './helpers.js';
 
 async function clearHistory(cutoff) {
@@ -13,10 +9,8 @@ async function clearHistory(cutoff) {
 }
 
 async function showNotification(message) {
-  const { showNotificationsEnabled } = await browser.storage.local.get([
-    'showNotificationsEnabled',
-  ]);
-  const enabled = showNotificationsEnabled ?? DEFAULT_SHOW_NOTIFICATIONS_ENABLED;
+  const { showNotificationsEnabled } = await browser.storage.local.get([KEYS.SHOW_NOTIFICATIONS]);
+  const enabled = showNotificationsEnabled ?? DEFAULTS.SHOW_NOTIFICATIONS;
 
   if (browser.notifications && enabled) {
     browser.notifications.create('amnesia-notification', {
@@ -39,9 +33,9 @@ async function clearHistoryWithNotification(days) {
 }
 
 async function onBrowserStartup() {
-  const { days, autoClearEnabled } = await browser.storage.local.get(['days', 'autoClearEnabled']);
-  const effectiveDays = days ?? DEFAULT_DAYS;
-  const enabled = autoClearEnabled ?? DEFAULT_AUTO_CLEAR_ENABLED;
+  const { days, autoClearEnabled } = await browser.storage.local.get([KEYS.DAYS, KEYS.AUTO_CLEAR]);
+  const effectiveDays = days ?? DEFAULTS.DAYS;
+  const enabled = autoClearEnabled ?? DEFAULTS.AUTO_CLEAR;
 
   if (!enabled) return;
 
