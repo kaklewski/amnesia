@@ -11,19 +11,25 @@ import {
   toKebabCase,
 } from './helpers.js';
 
-const DAYS_KEY = 'days';
-const AUTO_CLEAR_KEY = 'autoClearEnabled';
-const SHOW_NOTIFICATIONS_KEY = 'showNotificationsEnabled';
-const daysInput = document.getElementById('days-input');
-const clearButton = document.getElementById('clear-button');
-const autoClearCheckbox = document.getElementById('auto-clear-checkbox');
-const showNotificationsCheckbox = document.getElementById('show-notifications-checkbox');
+const KEYS = {
+  DAYS: 'days',
+  AUTO_CLEAR: 'autoClearEnabled',
+  SHOW_NOTIFICATIONS: 'showNotificationsEnabled',
+};
+
+const elements = {
+  daysInput: document.getElementById('days-input'),
+  clearButton: document.getElementById('clear-button'),
+  autoClearCheckbox: document.getElementById('auto-clear-checkbox'),
+  showNotificationsCheckbox: document.getElementById('show-notifications-checkbox'),
+  errorAlert: document.getElementById('error-alert'),
+  successAlert: document.getElementById('success-alert'),
+};
 
 function applyI18n() {
   document.documentElement.lang = browser.i18n.getUILanguage();
   document.title = browser.i18n.getMessage('extensionName');
 
-  // Keys correspond to message names in _locales/*/messages.json
   const keys = [
     'daysInputLabel',
     'clearButton',
@@ -34,91 +40,83 @@ function applyI18n() {
   ];
 
   keys.forEach((key) => {
-    const messageValue = browser.i18n.getMessage(key);
-    if (!messageValue) return;
-
     const id = toKebabCase(key);
     const element = document.getElementById(id);
+    const messageValue = browser.i18n.getMessage(key);
+    if (!element || !messageValue) return;
 
-    if (element) {
-      if (element.tagName === 'button') {
-        element.value = messageValue;
-      } else {
-        element.textContent = messageValue;
-      }
-    }
+    element.tagName === 'button'
+      ? (element.value = messageValue)
+      : (element.textContent = messageValue);
   });
 }
 
 async function setValuesOnStartup() {
-  const { days, autoClearEnabled, showNotificationsEnabled } = await browser.storage.local.get([
-    DAYS_KEY,
-    AUTO_CLEAR_KEY,
-    SHOW_NOTIFICATIONS_KEY,
-  ]);
+  const {
+    days = DEFAULT_DAYS,
+    autoClearEnabled = DEFAULT_AUTO_CLEAR_ENABLED,
+    showNotificationsEnabled = DEFAULT_SHOW_NOTIFICATIONS_ENABLED,
+  } = await browser.storage.local.get([KEYS.DAYS, KEYS.AUTO_CLEAR, KEYS.SHOW_NOTIFICATIONS]);
 
-  daysInput.value = isPositiveInteger(days) ? days : DEFAULT_DAYS;
-  autoClearCheckbox.checked = autoClearEnabled ?? DEFAULT_AUTO_CLEAR_ENABLED;
-  showNotificationsCheckbox.checked =
-    showNotificationsEnabled ?? DEFAULT_SHOW_NOTIFICATIONS_ENABLED;
+  elements.daysInput.value = isPositiveInteger(days) ? days : DEFAULT_DAYS;
+  elements.autoClearCheckbox.checked = autoClearEnabled;
+  elements.showNotificationsCheckbox.checked = showNotificationsEnabled;
+}
+
+function showAlert(type, visible) {
+  changeElementVisibility(elements[`${type}Alert`], visible);
 }
 
 async function saveNumberOfDaysInStorage() {
-  const days = getNumberOfDaysFromInput(daysInput);
-  const errorAlert = document.getElementById('error-alert');
+  const days = getNumberOfDaysFromInput(elements.daysInput);
 
   if (!isPositiveInteger(days)) {
-    changeElementVisibility(errorAlert, true);
-    clearButton.disabled = true;
+    showAlert('error', true);
+    elements.clearButton.disabled = true;
     return;
   }
 
-  changeElementVisibility(errorAlert, false);
-  clearButton.disabled = false;
-
-  await browser.storage.local.set({ [DAYS_KEY]: days });
+  showAlert('error', false);
+  elements.clearButton.disabled = false;
+  await browser.storage.local.set({ [KEYS.DAYS]: days });
 }
 
-async function clearHistory() {
+async function requestHistoryClear() {
   await saveNumberOfDaysInStorage();
-  const days = getNumberOfDaysFromInput(daysInput);
-  sendClearHistoryMessage(days);
-}
+  const days = getNumberOfDaysFromInput(elements.daysInput);
 
-function sendClearHistoryMessage(days) {
   browser.runtime.sendMessage({
     action: 'clearHistory',
     days,
   });
 }
 
-async function setAutoClear() {
-  const isChecked = autoClearCheckbox.checked;
-  await browser.storage.local.set({ [AUTO_CLEAR_KEY]: isChecked });
+async function setCheckboxPreference(key, checkbox) {
+  await browser.storage.local.set({ [key]: checkbox.checked });
 }
 
-function setShowNotifications() {
-  const isChecked = showNotificationsCheckbox.checked;
-  browser.storage.local.set({ [SHOW_NOTIFICATIONS_KEY]: isChecked });
-}
-
-daysInput.addEventListener('change', saveNumberOfDaysInStorage);
-clearButton.addEventListener('click', clearHistory);
-autoClearCheckbox.addEventListener('change', setAutoClear);
-showNotificationsCheckbox.addEventListener('change', setShowNotifications);
-
-document.addEventListener('DOMContentLoaded', async () => {
+async function onContentLoaded() {
   applyI18n();
   await setValuesOnStartup();
   enableTransitions();
-});
+}
 
-browser.runtime.onMessage.addListener((message) => {
+function onBackgroundMessage(message) {
   if (message.action === 'showSuccessAlert') {
-    const successAlert = document.getElementById('success-alert');
-    changeElementVisibility(successAlert, true);
+    showAlert('success', true);
     setTimeout(() => {
-      changeElementVisibility(successAlert, false);
+      showAlert('success', false);
     }, 3000);
   }
-});
+}
+
+elements.daysInput.addEventListener('change', saveNumberOfDaysInStorage);
+elements.clearButton.addEventListener('click', requestHistoryClear);
+elements.autoClearCheckbox.addEventListener('change', () =>
+  setCheckboxPreference(KEYS.AUTO_CLEAR, elements.autoClearCheckbox)
+);
+elements.showNotificationsCheckbox.addEventListener('change', () =>
+  setCheckboxPreference(KEYS.SHOW_NOTIFICATIONS, elements.showNotificationsCheckbox)
+);
+document.addEventListener('DOMContentLoaded', onContentLoaded);
+browser.runtime.onMessage.addListener(onBackgroundMessage);
