@@ -12,7 +12,7 @@ async function clearHistory(cutoff) {
   });
 }
 
-async function notify(message) {
+async function showNotification(message) {
   const { showNotificationsEnabled } = await browser.storage.local.get([
     'showNotificationsEnabled',
   ]);
@@ -32,22 +32,27 @@ async function notify(message) {
   }
 }
 
-async function runAutoClear() {
+async function clearHistoryWithNotification(days) {
+  await clearHistory(getCutoff(days));
+  const notificationText = browser.i18n.getMessage('historyCleared', days.toString());
+  showNotification(notificationText);
+}
+
+async function handleStartup() {
   const { days, autoClearEnabled } = await browser.storage.local.get(['days', 'autoClearEnabled']);
   const effectiveDays = days ?? DEFAULT_DAYS;
   const enabled = autoClearEnabled ?? DEFAULT_AUTO_CLEAR_ENABLED;
 
   if (!enabled) return;
 
-  await clearHistory(getCutoff(effectiveDays));
-  notify(`History older than ${effectiveDays} days has been deleted.`);
+  await clearHistoryWithNotification(effectiveDays);
 }
 
-browser.runtime.onMessage.addListener(async (message) => {
+async function handleRuntimeMessage(message) {
   if (message.action === 'clearHistory') {
-    await clearHistory(getCutoff(message.days));
-    notify(`History older than ${message.days} days has been deleted.`);
+    await clearHistoryWithNotification(message.days);
   }
-});
+}
 
-browser.runtime.onStartup.addListener(runAutoClear);
+browser.runtime.onStartup.addListener(handleStartup);
+browser.runtime.onMessage.addListener(handleRuntimeMessage);

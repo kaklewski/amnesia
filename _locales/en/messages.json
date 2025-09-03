@@ -34,5 +34,13 @@
   "showNotificationsCheckboxLabel": {
     "message": "Show notification after clearing",
     "description": "Label for the checkbox that enables/disables showing notification after clearing"
+  },
+  "historyCleared": {
+    "message": "Browsing history older than $DAYS$ days has been cleared.",
+    "placeholders": {
+      "days": {
+        "content": "$1"
+      }
+    }
   }
 }

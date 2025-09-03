@@ -34,5 +34,13 @@
   "showNotificationsCheckboxLabel": {
     "message": "Pokaż powiadomienie po wyczyszczeniu",
     "description": "Etykieta pola wyboru włączającego/wyłączającego pokazywanie powiadomień po czyszczeniu"
+  },
+  "historyCleared": {
+    "message": "Historia przeglądania starsza niż $DAYS$ dni została wyczyszczona.",
+    "placeholders": {
+      "days": {
+        "content": "$1"
+      }
+    }
   }
 }
