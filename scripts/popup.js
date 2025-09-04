@@ -20,6 +20,7 @@ function applyI18n() {
   document.documentElement.lang = browser.i18n.getUILanguage();
   document.title = browser.i18n.getMessage('extensionName');
 
+  // Keys correspond to messages in _locales/*/messages.json
   const keys = [
     'daysInputLabel',
     'clearButton',
@@ -57,7 +58,7 @@ function showAlert(type, visible) {
   changeElementVisibility(elements[`${type}Alert`], visible);
 }
 
-async function saveNumberOfDaysInStorage() {
+async function handleDaysChange() {
   const days = getNumberOfDaysFromInput(elements.daysInput);
 
   if (!isPositiveInteger(days)) {
@@ -72,7 +73,6 @@ async function saveNumberOfDaysInStorage() {
 }
 
 async function requestHistoryClear() {
-  await saveNumberOfDaysInStorage();
   const days = getNumberOfDaysFromInput(elements.daysInput);
 
   browser.runtime.sendMessage({
@@ -100,7 +100,7 @@ function onBackgroundMessage(message) {
   }
 }
 
-elements.daysInput.addEventListener('change', saveNumberOfDaysInStorage);
+elements.daysInput.addEventListener('change', handleDaysChange);
 elements.clearButton.addEventListener('click', requestHistoryClear);
 elements.autoClearCheckbox.addEventListener('change', () =>
   setCheckboxPreference(KEYS.AUTO_CLEAR, elements.autoClearCheckbox)
