@@ -11,6 +11,10 @@
     "message": "Clear history older than a specified number of days",
     "description": "Title shown when hovering over the extension icon"
   },
+  "clearingOverlayText": {
+    "message": "Clearing history...",
+    "description": "Message shown while the history is being cleared"
+  },
   "daysInputLabel": {
     "message": "Clear history older than number of days:",
     "description": "Label for the input where user specifies number of days"

@@ -8,6 +8,27 @@
     <script type="module" src="../scripts/popup.js" defer></script>
   </head>
   <body data-show-transitions="false">
+    <div id="clearing-overlay" class="clearing-overlay" data-visible="false">
+      <div class="clearing-overlay__container">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="clearing-overlay__img"
+        >
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M4.05 11a8 8 0 1 1 .5 4m-.5 5v-5h5" />
+        </svg>
+        <p id="clearing-overlay-text" class="clearing-overlay__text"></p>
+      </div>
+    </div>
+
     <div class="popup-container">
       <label for="days-input" id="days-input-label">
         Clear history older than number of days:

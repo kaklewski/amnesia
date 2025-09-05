@@ -1,6 +1,8 @@
 import { DEFAULTS, KEYS } from './config.js';
 import { getCutoff } from './helpers.js';
 
+let isClearing = false;
+
 async function clearHistory(cutoff) {
   await browser.history.deleteRange({
     startTime: 0,
@@ -27,9 +29,17 @@ async function showNotification(message) {
 }
 
 async function clearHistoryWithNotification(days) {
-  await clearHistory(getCutoff(days));
-  const notificationText = browser.i18n.getMessage('historyCleared', days.toString());
-  showNotification(notificationText);
+  isClearing = true;
+  browser.runtime.sendMessage({ action: 'clearingStarted' });
+
+  try {
+    await clearHistory(getCutoff(days));
+    const notificationText = browser.i18n.getMessage('historyCleared', days.toString());
+    await showNotification(notificationText);
+  } finally {
+    isClearing = false;
+    browser.runtime.sendMessage({ action: 'clearingFinished' });
+  }
 }
 
 async function onBrowserStartup() {
@@ -43,8 +53,14 @@ async function onBrowserStartup() {
 }
 
 async function onRuntimeMessage(message) {
-  if (message.action === 'clearHistory') {
-    await clearHistoryWithNotification(message.days);
+  switch (message.action) {
+    case 'clearHistory':
+      await clearHistoryWithNotification(message.days);
+      break;
+    case 'getClearingState':
+      return Promise.resolve({ isClearing });
+    default:
+      break;
   }
 }
 

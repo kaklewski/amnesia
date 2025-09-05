@@ -11,6 +11,10 @@
     "message": "Wyczyść historię starszą niż określona liczba dni",
     "description": "Tytuł wyświetlany po najechaniu kursorem na ikonę rozszerzenia"
   },
+  "clearingOverlayText": {
+    "message": "Czyszczenie historii...",
+    "description": "Komunikat wyświetlany podczas czyszczenia historii"
+  },
   "daysInputLabel": {
     "message": "Wyczyść historię starszą niż liczba dni:",
     "description": "Etykieta dla pola, w którym użytkownik podaje liczbę dni"

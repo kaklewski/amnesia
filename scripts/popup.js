@@ -8,6 +8,8 @@ import {
 } from './helpers.js';
 
 const elements = {
+  clearingOverlay: document.getElementById('clearing-overlay'),
+  clearingOverlayText: document.getElementById('clearing-overlay-text'),
   daysInput: document.getElementById('days-input'),
   clearButton: document.getElementById('clear-button'),
   autoClearCheckbox: document.getElementById('auto-clear-checkbox'),
@@ -28,6 +30,7 @@ function applyI18n() {
     'successAlertText',
     'autoClearCheckboxLabel',
     'showNotificationsCheckboxLabel',
+    'clearingOverlayText',
   ];
 
   keys.forEach((key) => {
@@ -89,14 +92,27 @@ async function onContentLoaded() {
   applyI18n();
   await setValuesOnStartup();
   enableTransitions();
+
+  const { isClearing } = await browser.runtime.sendMessage({ action: 'getClearingState' });
+  changeElementVisibility(elements.clearingOverlay, isClearing);
 }
 
 function onBackgroundMessage(message) {
-  if (message.action === 'showSuccessAlert') {
-    showAlert('success', true);
-    setTimeout(() => {
-      showAlert('success', false);
-    }, 3000);
+  switch (message.action) {
+    case 'showSuccessAlert':
+      showAlert('success', true);
+      setTimeout(() => {
+        showAlert('success', false);
+      }, 3000);
+      break;
+    case 'clearingStarted':
+      changeElementVisibility(elements.clearingOverlay, true);
+      break;
+    case 'clearingFinished':
+      changeElementVisibility(elements.clearingOverlay, false);
+      break;
+    default:
+      break;
   }
 }
 
