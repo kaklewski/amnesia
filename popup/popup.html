@@ -8,7 +8,7 @@
     <script type="module" src="../scripts/popup.js" defer></script>
   </head>
   <body data-show-transitions="false">
-    <div id="clearing-overlay" class="clearing-overlay" data-visible="false">
+    <div id="clearing-overlay" class="clearing-overlay" aria-live="polite" data-visible="false">
       <div class="clearing-overlay__container">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -29,16 +29,24 @@
       </div>
     </div>
 
-    <div class="popup-container">
+    <div class="popup">
       <label for="days-input" id="days-input-label">
         Clear history older than number of days:
       </label>
-      <input id="days-input" type="number" inputmode="numeric" min="1" max="3650" step="1" />
+      <input
+        id="days-input"
+        class="days-input"
+        type="number"
+        inputmode="numeric"
+        min="1"
+        max="3650"
+        step="1"
+      />
 
-      <button type="button" id="clear-button">Clear now</button>
+      <button type="button" id="clear-button" class="clear-button">Clear now</button>
 
       <div id="error-alert" data-visible="false">
-        <div class="alert error-alert">
+        <div class="alert alert--error">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -55,8 +63,8 @@
         </div>
       </div>
 
-      <div id="success-alert" data-visible="false">
-        <div class="alert success-alert">
+      <div id="success-alert" aria-live="polite" data-visible="false">
+        <div class="alert alert--success">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -73,28 +81,28 @@
         </div>
       </div>
 
-      <hr />
+      <hr class="popup__divider" />
 
-      <div class="switch-container">
+      <div class="popup__switch">
         <label class="switch">
-          <input type="checkbox" id="show-notifications-checkbox" />
-          <span class="slider"></span>
+          <input class="switch__input" type="checkbox" id="show-notifications-checkbox" />
+          <span class="switch__slider"></span>
         </label>
         <label
           for="show-notifications-checkbox"
-          class="switch-label"
+          class="switch__label"
           id="show-notifications-checkbox-label"
         >
           Show notification after clearing
         </label>
       </div>
 
-      <div class="switch-container">
+      <div class="popup__switch">
         <label class="switch">
-          <input type="checkbox" id="auto-clear-checkbox" />
-          <span class="slider"></span>
+          <input class="switch__input" type="checkbox" id="auto-clear-checkbox" />
+          <span class="switch__slider"></span>
         </label>
-        <label for="auto-clear-checkbox" class="switch-label" id="auto-clear-checkbox-label">
+        <label for="auto-clear-checkbox" class="switch__label" id="auto-clear-checkbox-label">
           Clear automatically on browser startup
         </label>
       </div>
