@@ -29,14 +29,18 @@ async function showNotification(message) {
 }
 
 async function clearHistoryWithNotification(days) {
-  isClearing = true;
-  browser.runtime.sendMessage({ action: 'clearingStarted' });
+  // Avoid flashing the overlay for very short operations
+  const showClearingOverlayTimeout = setTimeout(() => {
+    isClearing = true;
+    browser.runtime.sendMessage({ action: 'clearingStarted' });
+  }, 150);
 
   try {
     await clearHistory(getCutoff(days));
     const notificationText = browser.i18n.getMessage('historyCleared', days.toString());
     await showNotification(notificationText);
   } finally {
+    clearTimeout(showClearingOverlayTimeout);
     isClearing = false;
     browser.runtime.sendMessage({ action: 'clearingFinished' });
   }
