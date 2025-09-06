@@ -11,7 +11,9 @@ async function clearHistory(cutoff) {
 }
 
 async function showNotification(message) {
-  const { showNotificationsEnabled } = await browser.storage.local.get([KEYS.SHOW_NOTIFICATIONS]);
+  const { showNotificationsEnabled } = await browser.storage.local.get([
+    KEYS.SHOW_NOTIFICATIONS,
+  ]);
   const enabled = showNotificationsEnabled ?? DEFAULTS.SHOW_NOTIFICATIONS;
 
   if (browser.notifications && enabled) {
@@ -37,7 +39,10 @@ async function clearHistoryWithNotification(days) {
 
   try {
     await clearHistory(getCutoff(days));
-    const notificationText = browser.i18n.getMessage('historyCleared', days.toString());
+    const notificationText = browser.i18n.getMessage(
+      'historyCleared',
+      days.toString(),
+    );
     await showNotification(notificationText);
   } finally {
     clearTimeout(showClearingOverlayTimeout);
@@ -47,7 +52,10 @@ async function clearHistoryWithNotification(days) {
 }
 
 async function onBrowserStartup() {
-  const { days, autoClearEnabled } = await browser.storage.local.get([KEYS.DAYS, KEYS.AUTO_CLEAR]);
+  const { days, autoClearEnabled } = await browser.storage.local.get([
+    KEYS.DAYS,
+    KEYS.AUTO_CLEAR,
+  ]);
   const effectiveDays = days ?? DEFAULTS.DAYS;
   const enabled = autoClearEnabled ?? DEFAULTS.AUTO_CLEAR;
 

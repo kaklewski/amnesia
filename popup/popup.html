@@ -8,7 +8,12 @@
     <script type="module" src="../scripts/popup.js" defer></script>
   </head>
   <body data-show-transitions="false">
-    <div id="clearing-overlay" class="clearing-overlay" aria-live="polite" data-visible="false">
+    <div
+      id="clearing-overlay"
+      class="clearing-overlay"
+      aria-live="polite"
+      data-visible="false"
+    >
       <div class="clearing-overlay__container">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -43,7 +48,9 @@
         step="1"
       />
 
-      <button type="button" id="clear-button" class="clear-button">Clear now</button>
+      <button type="button" id="clear-button" class="clear-button">
+        Clear now
+      </button>
 
       <div id="error-alert" data-visible="false">
         <div class="alert alert--error">
@@ -85,7 +92,11 @@
 
       <div class="popup__switch">
         <label class="switch">
-          <input class="switch__input" type="checkbox" id="show-notifications-checkbox" />
+          <input
+            class="switch__input"
+            type="checkbox"
+            id="show-notifications-checkbox"
+          />
           <span class="switch__slider"></span>
         </label>
         <label
@@ -99,10 +110,18 @@
 
       <div class="popup__switch">
         <label class="switch">
-          <input class="switch__input" type="checkbox" id="auto-clear-checkbox" />
+          <input
+            class="switch__input"
+            type="checkbox"
+            id="auto-clear-checkbox"
+          />
           <span class="switch__slider"></span>
         </label>
-        <label for="auto-clear-checkbox" class="switch__label" id="auto-clear-checkbox-label">
+        <label
+          for="auto-clear-checkbox"
+          class="switch__label"
+          id="auto-clear-checkbox-label"
+        >
           Clear automatically on browser startup
         </label>
       </div>

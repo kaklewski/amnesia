@@ -13,7 +13,9 @@ const elements = {
   daysInput: document.getElementById('days-input'),
   clearButton: document.getElementById('clear-button'),
   autoClearCheckbox: document.getElementById('auto-clear-checkbox'),
-  showNotificationsCheckbox: document.getElementById('show-notifications-checkbox'),
+  showNotificationsCheckbox: document.getElementById(
+    'show-notifications-checkbox',
+  ),
   errorAlert: document.getElementById('error-alert'),
   successAlert: document.getElementById('success-alert'),
 };
@@ -50,7 +52,11 @@ async function setValuesOnStartup() {
     days = DEFAULTS.DAYS,
     autoClearEnabled = DEFAULTS.AUTO_CLEAR,
     showNotificationsEnabled = DEFAULTS.SHOW_NOTIFICATIONS,
-  } = await browser.storage.local.get([KEYS.DAYS, KEYS.AUTO_CLEAR, KEYS.SHOW_NOTIFICATIONS]);
+  } = await browser.storage.local.get([
+    KEYS.DAYS,
+    KEYS.AUTO_CLEAR,
+    KEYS.SHOW_NOTIFICATIONS,
+  ]);
 
   elements.daysInput.value = isPositiveInteger(days) ? days : DEFAULTS.DAYS;
   elements.autoClearCheckbox.checked = autoClearEnabled;
@@ -93,7 +99,9 @@ async function onContentLoaded() {
   await setValuesOnStartup();
   enableTransitions();
 
-  const { isClearing } = await browser.runtime.sendMessage({ action: 'getClearingState' });
+  const { isClearing } = await browser.runtime.sendMessage({
+    action: 'getClearingState',
+  });
   changeElementVisibility(elements.clearingOverlay, isClearing);
 }
 
@@ -119,10 +127,13 @@ function onBackgroundMessage(message) {
 elements.daysInput.addEventListener('change', handleDaysChange);
 elements.clearButton.addEventListener('click', requestHistoryClear);
 elements.autoClearCheckbox.addEventListener('change', () =>
-  setCheckboxPreference(KEYS.AUTO_CLEAR, elements.autoClearCheckbox)
+  setCheckboxPreference(KEYS.AUTO_CLEAR, elements.autoClearCheckbox),
 );
 elements.showNotificationsCheckbox.addEventListener('change', () =>
-  setCheckboxPreference(KEYS.SHOW_NOTIFICATIONS, elements.showNotificationsCheckbox)
+  setCheckboxPreference(
+    KEYS.SHOW_NOTIFICATIONS,
+    elements.showNotificationsCheckbox,
+  ),
 );
 document.addEventListener('DOMContentLoaded', onContentLoaded);
 browser.runtime.onMessage.addListener(onBackgroundMessage);
