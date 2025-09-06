@@ -21,7 +21,18 @@ Ideal for users who value **privacy** and keeping their **browser clean**.
 Amnesia is available on the official Mozilla Add-ons store:  
 [**Get it on Firefox Add-ons**](https://addons.mozilla.org/addon/amnesia-cleaner/)
 
-## 🌐 Translations
+## 🤝 Contributing
+
+Contributions are welcome! You can help by:
+
+### 📝 Code & UI
+
+- Fixing bugs or improving the UI.
+- Suggesting new features or reporting issues via the [issue tracker](https://github.com/kaklewski/amnesia/issues).
+
+Please follow **Conventional Commits** when creating commits.
+
+### 🌐 Translations
 
 The extension currently supports **English 🇬🇧** and **Polish 🇵🇱**.  
 Contributions for additional languages are welcome!
